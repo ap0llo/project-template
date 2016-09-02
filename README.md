@@ -25,13 +25,14 @@ src
 ---
     src
      |--MyAssembly
-            |-main
-                |-MyAssembly.csproj
-            |-test
-                |-MyAssembly.Test.csproj
+            |--main
+                |--MyAssembly.csproj
+            |--test
+                |--MyAssembly.Test.csproj
+     |--MyProject.sln
 
-Inside the src directory, there is one directory per assembly. Similar to how java build systems (like gradle) structure projects,
-I add another hierarchy level ("main" and "test"), so each of the proejct directories actually contains two C# projects
+The src directory contains the Visual Studio solution file and one directory per assembly. Similar to how java build systems 
+(like gradle) structure projects, I add another hierarchy level ("main" and "test"), so each of the project directories actually contains two C# projects
 (the main project and an associated unit test project).
 
 Though there aren't always unit tests for every project, I think it's a good practice to create the unit test project
