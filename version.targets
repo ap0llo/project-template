@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	
+
+	<PropertyGroup>
+		<VersionTargetsImported>true</VersionTargetsImported>		
+		<AssemblyInfoPath Condition=" $(AssemblyInfoPath) == ''">$(BaseIntermediateOutputPath)AssemblyInfo.g.cs</AssemblyInfoPath>
+		<CanGenerateAssemblyInfo>false</CanGenerateAssemblyInfo>
+		<CanGenerateAssemblyInfo Condition="Exists($(MSBuildCommunityTasksLib))">true</CanGenerateAssemblyInfo>
+	</PropertyGroup>
+   
+	<Target Name="CheckMSBuildCommunityTasks" BeforeTargets="Version;PrepareForBuild" Condition="!$(CanGenerateAssemblyInfo)">
+		<Warning Text="The git commit hash will not be included in the assembly info because MSBuildCommunityTasks were not found" />
+	</Target>
+   
+	<Target Name="Version" BeforeTargets="PrepareForBuild" Condition="$(CanGenerateAssemblyInfo)">
+
+		<!-- Create directory to write the assembly info to -->	
+		<MakeDir Directories=" $([System.IO.Path]::GetDirectoryName($(AssemblyInfoPath)))" />
+		
+		<!--Determine the root path of the repository-->
+		<GitClient Command="rev-parse --show-toplevel" LocalPath="$(MSBuildProjectPath)">
+			<Output TaskParameter="ConsoleOutput" PropertyName="GitRoot" />			
+		</GitClient>		
+
+		<Message Text="git root directory is '$(GitRoot)'" />
+
+		<!-- Determine git commit hash and generate assembly info from it -->
+		<GitVersion LocalPath="$(GitRoot)" Short="False">
+			<Output TaskParameter="CommitHash" PropertyName="GitRevision" />
+		</GitVersion>				
+		<Message Text="git commit hash is $(GitRevision)" />
+
+		<AssemblyInfo CodeLanguage="CS" OutputFile="$(AssemblyInfoPath)" AssemblyInformationalVersion="$(GitRevision)" />			
+
+	</Target>
+	
+	<ItemGroup>
+		<Compile Condition="$(CanGenerateAssemblyInfo)" Include="$(AssemblyInfoPath)" />
+	</ItemGroup>
+	
+</Project>
