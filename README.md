@@ -57,3 +57,14 @@ should look something like this
 I like to specify the output path and the path of the intermedia build results in the root's
 dir.properties files. However, the OutputPath property is overwritten in the csproj files created by
 Visual Studio, so the OutputPath needs to be deleted from these project files.
+
+
+Dependencies
+------------
+When using nuget for dependency management, I prefer to use a project.json
+file instead of the "old" packages.config. project.json supports transitive dependencies
+and will not put all dependenices of the packages you're using in the packages file.
+
+This is currently only [partially supported](https://github.com/NuGet/Home/wiki/Converting-a-csproj-from-package.config-to-project.json) 
+for "classic" csproj projects and is only intendend from UWP and .Net Core projects
+but works fine for most packages  
