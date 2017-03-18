@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build" >
+	
+	<Import Project="dir.properties" />
+	
+	<!-- Build settings -->
+	<PropertyGroup>		
+		<SolutionConfiguration>Release</SolutionConfiguration>
+		<SolutionPlatform>Any CPU</SolutionPlatform>
+	</PropertyGroup>
+	
+	<!-- Solutions to build -->
+	<ItemGroup>
+		<Solution Include="src/*.sln" />
+		<TestProject Include="src/*/test/*.csproj" />
+	</ItemGroup>	
+	
+	<!-- NuGet settings -->
+	<PropertyGroup>		
+		<NugetVersion>3.4.4</NugetVersion>
+		<NugetDirectory>$(BaseOutputPath)tools\</NugetDirectory>		
+	</PropertyGroup>
+					
+
+	<Import Project="nuget.targets" />
+	
+	<Target Name="Build" DependsOnTargets="RestorePackages">
+		<MSBuild Projects="@(Solution)" Targets="Build" BuildInParallel="true" Properties="Platform=$(SolutionPlatform);Configuration=$(SolutionConfiguration)" />
+	</Target>
+	
+	<Target Name="Clean">
+		<MSBuild Projects="@(Solution)" Targets="Clean" BuildInParallel="true" Properties="Platform=$(SolutionPlatform);Configuration=$(SolutionConfiguration)" />          
+		<RemoveDir Directories="$(BaseOutputPath)" />
+	</Target>
+	
+	<Target Name="Test" DependsOnTargets="Build">
+		<MSBuild Projects="@(TestProject)" Targets="Test" BuildInParallel="false" Properties="Platform=$(SolutionPlatform);Configuration=$(SolutionConfiguration)" />          
+	</Target>
+	
+</Project>

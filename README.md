@@ -14,10 +14,11 @@ In the root - depending on the project - there are 2 to 4 main directories
   I try to use nuget for as many of the dependencies as possible.         
 
 Aside from the main folder, the root directory contains:
-- Build.ps1: A build script to build the entire project from the commandline.
-  I try to keep project-specifics out of the build script as much as possible (for example, the script looks for a 
-  Solution file to build, so the name of the solution does not have to be specified in the script).
-  The script will automatically download nuget, run nuget package restore and then build the solution using msbuild
+- Build.bat: A batch script to build the entire project from the commandline.
+  This will just call msbuild for the `build.proj` project.
+  The project offers `Build` and `Clean` targets (for all projects) as well as
+  a `Test` target to run unit tests for all test projects.  
+  (The test target here uses [xunit](http://xunit.github.io/))
 - dir.properties and dir.targets: MSBuild files to specify properties and targets that apply to all projects in the 
   repository (e.g. the output path is set here)
 
