@@ -8,7 +8,7 @@
 - *Ensure the .NET Core SDK specified in `global.json` is the version that should be used for the new repo*
 - *Insert year and name into `LICENSE`*
 - *Adjust the version in `version.json`*
-- *Adjust the following section in this README file*
+- *Adjust the following sections in this README file*
 - *Remove this section from this README file*
 
 ## Overview
