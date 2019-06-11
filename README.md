@@ -1,71 +1,61 @@
-# C# Project template
+# *__TODO:__ Insert project name*
 
-This is a description of how I like to structure my C# projects / repositories.
+*This repository serves as template for new repositories.*
+*After creating a new repo from the template, adjust the following files (entries that need to be replaced are marked as **TODO**):*
 
-Root directory
----------------
-In the root - depending on the project - there are 2 to 4 main directories
+- *Update the NuGet packaging settings in `src\Directory.Build.props` (Properties marked as **TODO**)*
+- *Adjust settings for CI builds in `azure-pipelines.yml`*
+- *Ensure the .NET Core SDK specified in `global.json` is the version that should be used for the new repo*
+- *Insert year and name into `LICENSE`*
+- *Adjust the version in `version.json`*
+- *Adjust the following section in this README file*
+- *Remove this section from this README file*
 
-- src : This is where all the actual source code of the project goes
-- build: All the build output (including intermediate files) will be written there.
-  Having all the files in a single spot makes deleting build outputs quite easy
-- docs: Documentation files
-- deps: If necessary, I add projects I depend on as git submodule here. However, if possible
-  I try to use nuget for as many of the dependencies as possible.         
+## Overview
 
-Aside from the main folder, the root directory contains:
-- Build.bat: A batch script to build the entire project from the commandline.
-  This will just call msbuild for the `build.proj` project.
-  The project offers `Build` and `Clean` targets (for all projects) as well as
-  a `Test` target to run unit tests for all test projects.  
-  (The test target here uses [xunit](http://xunit.github.io/))
-- dir.properties and dir.targets: MSBuild files to specify properties and targets that apply to all projects in the 
-  repository (e.g. the output path is set here)
+*__TODO:__ Add status badges for package(s) on NuGet.org (and MyGet), build status badge for Azure Pipeline*
 
-src
----
-    src
-     |--MyAssembly
-            |--main
-                |--MyAssembly.csproj
-            |--test
-                |--MyAssembly.Test.csproj
-     |--MyProject.sln
+## Installation
 
-The src directory contains the Visual Studio solution file and one directory per assembly. Similar to how java build systems 
-(like gradle) structure projects, I add another hierarchy level ("main" and "test"), so each of the project directories actually contains two C# projects
-(the main project and an associated unit test project).
+*__TODO:__ PACKAGENAME* is distributed as NuGet package.
 
-Though there aren't always unit tests for every project, I think it's a good practice to create the unit test project
-right away to reduce the effort required to add tests later on.
+- Prerelease builds are available on [MyGet](https://example.com) **TODO:** Provide package urls
+- Release versions are available on [NuGet.org](https://example.com) **TODO:** Provide package urls
 
-As already mentioned, the root directory contains centralized MSBuild settings (dir.properties / dir.targets). 
-These files are included in the csproj project files using the _GetDirectoryNameOfFileAbove_ function.
-This function starts at the current directory and walks up the file system hierarchy until it encounters a 
-file with a specified name.   
+## Building from source
 
-This makes it possible to add additional MSBuild files "between" the project and the root directory 
-(for example to specify settings that only apply to a single project and its unit test project).
-By adding another Import statement in these files, the settings from more "high-level" settings files can
-still be included.
+*__TODO:__ Provide info on how to build the project, e.g.*
 
-The import statement for the dir.properties file in the csproj / other dir.properties files 
-should look something like this
+```bat
+  dotnet restore .\src\PROJECTNAME.sln
 
-        <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildThisFileDirectory).., dir.properties))\dir.properties" 
-                Condition="'$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildThisFileDirectory).., dir.properties))' != '' " />
+  dotnet build .\src\PROJECTNAME.sln
 
-I like to specify the output path and the path of the intermedia build results in the root's
-dir.properties files. However, the OutputPath property is overwritten in the csproj files created by
-Visual Studio, so the OutputPath needs to be deleted from these project files.
+  dotnet pack .\src\PROJECTNAME.sln
+```
 
+## Acknowledgments
 
-Dependencies
-------------
-When using nuget for dependency management, I prefer to use a project.json
-file instead of the "old" packages.config. project.json supports transitive dependencies
-and will not put all dependenices of the packages you're using in the packages file.
+*__TODO:__ Provide info about libraries used in this project*
 
-This is currently only [partially supported](https://github.com/NuGet/Home/wiki/Converting-a-csproj-from-package.config-to-project.json) 
-for "classic" csproj projects and is only intendend from UWP and .Net Core projects
-but works fine for most packages  
+## Versioning and Branching
+
+*__TODO:__ Adjust versioning section if necessary*
+
+The version of this library is automatically derived from git and the information
+in `version.json` using [Nerdbank.GitVersioning](https://github.com/AArnott/Nerdbank.GitVersioning):
+
+- The master branch  always contains the latest version. Packages produced from
+  master are always marked as pre-release versions (using the `-pre` suffix).
+- Stable versions are built from release branches. Build from release branches
+  will have no `-pre` suffix
+- Builds from any other branch will have both the `-pre` prerelease tag and the git
+  commit hash included in the version string
+
+To create a new release branch use the [`nbgv` tool](https://www.nuget.org/packages/nbgv/)
+(at least version `3.0.4-beta`):
+
+```ps1
+dotnet tool install --global nbgv --version 3.0.4-beta
+nbgv prepare-release
+```

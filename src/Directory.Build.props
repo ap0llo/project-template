@@ -1,0 +1,29 @@
+<Project>
+
+	<PropertyGroup>
+		<LangVersion>7.3</LangVersion>
+	</PropertyGroup>
+
+	
+	<!-- Output paths -->
+	<PropertyGroup>
+		<BaseOutputPath Condition="'$(BUILD_BINARIESDIRECTORY)' != '' ">$(BUILD_BINARIESDIRECTORY)</BaseOutputPath>
+		<BaseOutputPath Condition="'$(BaseOutputPath)' == '' ">$(MSBuildThisFileDirectory)..\Build\</BaseOutputPath>
+		<BaseOutputPath Condition="!HasTrailingSlash('BaseOutputPath')">$(BaseOutputPath)\</BaseOutputPath>
+		<BaseIntermediateOutputPath>$(BaseOutputPath)intermediate\$(MSBuildProjectName)\</BaseIntermediateOutputPath>
+		<OutputPath>$(BaseOutputPath)$(Configuration)\$(MSBuildProjectName)\</OutputPath>
+	</PropertyGroup>
+	
+	<ItemGroup>
+		<PackageReference Include="Nerdbank.GitVersioning" Version="2.3.38" PrivateAssets="all" />
+	</ItemGroup>
+
+	<!--NuGet package properties -->
+	<PropertyGroup>
+		<Authors>TODO</Authors>
+		<PackageProjectUrl>TODO</PackageProjectUrl>
+		<PackageLicenseUrl>TODO</PackageLicenseUrl>
+		<Description>TODO</Description>
+	</PropertyGroup>
+
+</Project>
