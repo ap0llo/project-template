@@ -6,8 +6,9 @@
 		<BaseOutputPath Condition="'$(BUILD_BINARIESDIRECTORY)' != '' ">$(BUILD_BINARIESDIRECTORY)</BaseOutputPath>
 		<BaseOutputPath Condition="'$(BaseOutputPath)' == '' ">$(MSBuildThisFileDirectory)../Build/</BaseOutputPath>
 		<BaseOutputPath Condition="!HasTrailingSlash('BaseOutputPath')">$(BaseOutputPath)/</BaseOutputPath>
-		<OutputPath>$(BaseOutputPath)$(Configuration)/$(MSBuildProjectName)/</OutputPath>		
+		<OutputPath>$(BaseOutputPath)$(Configuration)/$(MSBuildProjectName)/</OutputPath>
 		<PackageOutputPath>$(BaseOutputPath)$(Configuration)\packages\</PackageOutputPath>
+		<VSTestResultsDirectory>$(BaseOutputPath)TestResults/</VSTestResultsDirectory>
 	</PropertyGroup>
 
 	<!-- Nerdbank.GitVersioning -->	
@@ -54,6 +55,5 @@
 		<Copyright>TODO</Copyright>
 		<PackageTags>TODO</PackageTags>
 	</PropertyGroup>
-
 
 </Project>
