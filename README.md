@@ -43,7 +43,7 @@
 *__TODO:__ Adjust versioning section if necessary*
 
 The version of this library is automatically derived from git and the information
-in `version.json` using [Nerdbank.GitVersioning](https://github.com/AArnott/Nerdbank.GitVersioning):
+in `version.json` using [Nerdbank.GitVersioning](https://github.com/dotnet/Nerdbank.GitVersioning):
 
 - The master branch  always contains the latest version. Packages produced from
   master are always marked as pre-release versions (using the `-pre` suffix).
